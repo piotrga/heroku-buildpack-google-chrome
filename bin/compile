@@ -38,6 +38,12 @@ else
   channel=stable
 fi
 
+if [ -f $ENV_DIR/GOOGLE_CHROME_PACKAGE_URL ]; then
+  package_url=$(cat $ENV_DIR/GOOGLE_CHROME_PACKAGE_URL)
+else
+  package_url="https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+fi
+
 # Setup bin and shim locations for desired channel, and detect invalid channels
 case "$channel" in
   "stable")
@@ -108,7 +114,7 @@ fi
 
 topic "Installing Google Chrome from the $channel channel."
 
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+PACKAGES="$PACKAGES ${package_url}"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
